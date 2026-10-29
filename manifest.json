@@ -1,0 +1,83 @@
+{
+  "id": "sugar-tracker",
+  "name": "Sugar Tracker",
+  "version": "1.0.6",
+  "author": "Hatem <hatem@users.noreply.github.com>",
+  "description": "Track daily sugar intake from the QS Bar, starting with ordinary white sugar.",
+  "license": "MIT",
+  "tags": [
+    "bar-widget",
+    "health"
+  ],
+  "official": false,
+  "entryPoints": {
+    "main": "service/Main.qml",
+    "content": "content/Widget.qml",
+    "panel": "content/Panel.qml"
+  },
+  "files": [],
+  "capabilities": {
+    "densities": [
+      "glyph",
+      "full"
+    ]
+  },
+  "hosts": [
+    "topbarGlyph"
+  ],
+  "defaults": {
+    "host": "topbarGlyph",
+    "bar": {
+      "section": "right"
+    },
+    "icon": "spoon",
+    "label": "Sugar"
+  },
+  "panel": {
+    "width": 360
+  },
+  "metadata": {
+    "settings": [
+      {
+        "key": "dailyGoal",
+        "type": "int",
+        "label": "Daily sweetener goal (g)",
+        "group": "Sugar Tracker",
+        "default": 25,
+        "min": 1,
+        "max": 200,
+        "step": 1
+      },
+      {
+        "key": "whiteSugarGrams",
+        "type": "int",
+        "label": "White sugar per tap (g)",
+        "group": "Quick-add amounts",
+        "default": 4,
+        "min": 1,
+        "max": 100,
+        "step": 1
+      },
+      {
+        "key": "brownSugarGrams",
+        "type": "int",
+        "label": "Brown sugar per tap (g)",
+        "group": "Quick-add amounts",
+        "default": 4,
+        "min": 1,
+        "max": 100,
+        "step": 1
+      },
+      {
+        "key": "steviaGrams",
+        "type": "int",
+        "label": "Stevia per tap (g)",
+        "group": "Quick-add amounts",
+        "default": 1,
+        "min": 1,
+        "max": 100,
+        "step": 1
+      }
+    ]
+  }
+}
