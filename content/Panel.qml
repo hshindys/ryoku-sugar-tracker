@@ -509,5 +509,91 @@ Item {
         wrapMode: Text.WordWrap
       }
     }
+
+    // ── plugin settings ────────────────────────────────────────────────
+    Item {
+      width: parent.width
+      height: 84 * root.s
+      Row {
+        anchors.centerIn: parent
+        spacing: 12 * root.s
+
+        // Daily goal
+        Rectangle {
+          width: parent.width / 2 - 6 * root.s
+          height: 30 * root.s
+          radius: Motion.rSmall * root.s
+          color: Theme.tileBg
+          border.width: 1
+          border.color: Theme.border
+          Text {
+            anchors.centerIn: parent
+            text: root.service ? root.service.dailyGoal + " g" : "25 g"
+            color: Theme.cream
+            font.family: Theme.font
+            font.pixelSize: 11 * root.s
+            font.bold: true
+            horizontalAlignment: Text.AlignHCenter
+          }
+        }
+
+        // White sugar per tap
+        Rectangle {
+          width: parent.width / 2 - 6 * root.s
+          height: 30 * root.s
+          radius: Motion.rSmall * root.s
+          color: Theme.tileBg
+          border.width: 1
+          border.color: Theme.border
+          Text {
+            anchors.centerIn: parent
+            text: Number(root.pluginApi?.pluginSettings?.whiteSugarGrams ?? 4) + " g"
+            color: Theme.cream
+            font.family: Theme.font
+            font.pixelSize: 11 * root.s
+            font.bold: true
+            horizontalAlignment: Text.AlignHCenter
+          }
+        }
+
+        // Brown sugar per tap
+        Rectangle {
+          width: parent.width / 2 - 6 * root.s
+          height: 30 * root.s
+          radius: Motion.rSmall * root.s
+          color: Theme.tileBg
+          border.width: 1
+          border.color: Theme.border
+          Text {
+            anchors.centerIn: parent
+            text: Number(root.pluginApi?.pluginSettings?.brownSugarGrams ?? 4) + " g"
+            color: Theme.cream
+            font.family: Theme.font
+            font.pixelSize: 11 * root.s
+            font.bold: true
+            horizontalAlignment: Text.AlignHCenter
+          }
+        }
+
+        // Stevia per tap
+        Rectangle {
+          width: parent.width / 2 - 6 * root.s
+          height: 30 * root.s
+          radius: Motion.rSmall * root.s
+          color: Theme.tileBg
+          border.width: 1
+          border.color: Theme.border
+          Text {
+            anchors.centerIn: parent
+            text: Number(root.pluginApi?.pluginSettings?.steviaGrams ?? 1) + " g"
+            color: Theme.cream
+            font.family: Theme.font
+            font.pixelSize: 11 * root.s
+            font.bold: true
+            horizontalAlignment: Text.AlignHCenter
+          }
+        }
+      }
+    }
   }
 }
