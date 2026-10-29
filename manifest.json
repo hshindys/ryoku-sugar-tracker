@@ -1,7 +1,7 @@
 {
   "id": "sugar-tracker",
   "name": "Sugar Tracker",
-  "version": "1.0.9",
+  "version": "1.0.14",
   "author": "Hatem <hatem@users.noreply.github.com>",
   "description": "Track daily sugar intake from the QS Bar, starting with ordinary white sugar.",
   "license": "MIT",
@@ -34,7 +34,7 @@
     "label": "Sugar"
   },
   "panel": {
-    "width": 360
+    "width": 428
   },
   "metadata": {
     "settings": [

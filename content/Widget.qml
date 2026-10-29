@@ -13,7 +13,9 @@ Item {
   property real widthBudget: 0
 
   readonly property var service: pluginApi ? pluginApi.mainInstance : null
-  readonly property real contentW: density === "glyph" ? 32 * s : Math.min(widthBudget > 0 ? widthBudget : 320 * s, 320 * s)
+  readonly property real glyphW: 22
+  readonly property real glyphH: 32
+  readonly property real contentW: density === "glyph" ? root.glyphW + 4 : Math.min(widthBudget > 0 ? widthBudget : 320 * s, 320 * s)
   readonly property real progress: {
     if (!service) return 0
     var goal = Number(service.dailyGoal)
@@ -48,45 +50,56 @@ Item {
   }
 
   implicitWidth: contentW
-  implicitHeight: density === "glyph" ? 32 * s : body.implicitHeight
+  implicitHeight: density === "glyph" ? root.glyphH : body.implicitHeight
 
   Canvas {
     id: spoonMark
     anchors.centerIn: parent
     visible: root.density === "glyph"
-    width: 22 * root.s
-    height: 32 * root.s
+    width: root.glyphW
+    height: root.glyphH
     onPaint: {
       var ctx = getContext("2d")
-      var scale = root.s
+      // Design space is 22 x 32; map it onto whatever pixels the item got.
+      var scale = Math.min(width / 22, height / 32)
       ctx.setTransform(1, 0, 0, 1, 0, 0)
       ctx.clearRect(0, 0, width, height)
       ctx.save()
+      ctx.translate((width - 22 * scale) / 2, (height - 32 * scale) / 2)
       ctx.scale(scale, scale)
       ctx.fillStyle = root.spoonColor
 
-      // Bowl.
-      ctx.beginPath()
-      ctx.ellipse(11.0, 8.6, 7.2, 8.2, 0, 0, 2 * Math.PI)
-      ctx.fill()
+      // Oval helper: Qt's canvas ellipse(x, y, w, h) takes a bounding box, so
+      // an arc plus a y-scale is the reliable way to place a bowl by centre.
+      function oval(cx, cy, rx, ry) {
+        ctx.save()
+        ctx.translate(cx, cy)
+        ctx.scale(1, ry / rx)
+        ctx.beginPath()
+        ctx.arc(0, 0, rx, 0, 2 * Math.PI, false)
+        ctx.fill()
+        ctx.restore()
+      }
+
+      // Bowl: a short oval at the top, so the handle carries the silhouette.
+      oval(11.0, 6.8, 6.4, 6.8)
 
       // Tapered handle with a rounded tip.
       ctx.beginPath()
-      ctx.moveTo(9.4, 16.6)
-      ctx.bezierCurveTo(9.5, 21.2, 10.2, 26.8, 10.4, 30.1)
-      ctx.quadraticCurveTo(10.5, 31.4, 11.0, 31.4)
-      ctx.quadraticCurveTo(11.5, 31.4, 11.6, 30.1)
-      ctx.bezierCurveTo(11.8, 26.8, 12.5, 21.2, 12.6, 16.6)
+      ctx.moveTo(9.2, 11.6)
+      ctx.bezierCurveTo(9.4, 18.0, 9.7, 25.5, 9.8, 29.4)
+      ctx.quadraticCurveTo(9.9, 31.4, 11.0, 31.4)
+      ctx.quadraticCurveTo(12.1, 31.4, 12.2, 29.4)
+      ctx.bezierCurveTo(12.3, 25.5, 12.6, 18.0, 12.8, 11.6)
       ctx.closePath()
       ctx.fill()
 
       // Shaded hollow of the bowl, so the spoon still reads at small sizes.
-      ctx.beginPath()
-      ctx.ellipse(11.0, 8.8, 3.8, 5.0, 0, 0, 2 * Math.PI)
-      ctx.globalAlpha = 0.16
+      ctx.globalAlpha = 0.17
       ctx.fillStyle = "#000000"
-      ctx.fill()
+      oval(11.0, 7.0, 3.4, 4.0)
       ctx.globalAlpha = 1.0
+      ctx.fillStyle = root.spoonColor
 
       ctx.restore()
     }
